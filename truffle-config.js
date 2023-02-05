@@ -22,41 +22,54 @@ require('dotenv').config()
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const infuraProjectId = process.env.INFURA_PROJECT_ID
 const accountAddr = process.env.ACCOUNT_ADDRESS;
+const privateKey = process.env.PRIVATE_KEY;
+const mnemonic = process.env.MNEMONIC
 module.exports = {
 
   contracts_build_directory: "./abis",
   networks: {
     development: {
-      host: "localhost",
+      host: "127.0.0.1",
       port: 7545,
       network_id: "*" // Match any network id
     },
-    kovan: {
+    // kovan: {
+    //   provider: () => {
+    //     return new HDWalletProvider(
+    //       privateKey,
+    //       `https://kovan.infura.io/v3/${infuraProjectId}`
+    //     )
+    //   },
+    //   from: accountAddr,
+    //   network_id: 42, // Kovan's id
+    //   networkCheckTimeoutnetworkCheckTimeout: 10000,
+    //   timeoutBlocks: 200,
+    // },
+    goerli: {
       provider: () => {
-        const privateKey = process.env.PRIVATE_KEY;
         return new HDWalletProvider(
-          privateKey,
-          `https://kovan.infura.io/v3/${infuraProjectId}`
+          mnemonic,
+          `https://goerli.infura.io/v3/${privateKey}`
         )
       },
-      from: accountAddr,
-      network_id: 42, // Kovan's id
-      networkCheckTimeoutnetworkCheckTimeout: 10000,
+      // from: accountAddr,
+      network_id: 5, // Goerli's id
+      chain_id:5,
+      networkCheckTimeout: 1000000,    
       timeoutBlocks: 200,
+      addressIndex: 2,
+      gas: 5500000,
+      gasPrice: 50000000000,
     },
-    rinkeby: {
-      provider: () => {
-        const privateKey = process.env.PRIVATE_KEY;
-        return new HDWalletProvider(
-          privateKey,
-          `wss://rinkeby.infura.io/ws/v3/${infuraProjectId}`
-        )
-      },
-      from: accountAddr,
-      network_id: 4, // Rinkeby's id
-      networkCheckTimeoutnetworkCheckTimeout: 10000,
-      timeoutBlocks: 200,
-    },
+
+    // goerli: {
+    //   provider: () => {
+    //     return new HDWalletProvider(mnemonic, 'https://goerli.infura.io/v3/' + privateKey)
+    //   },
+    //   network_id: '5', // eslint-disable-line camelcase
+    //   gas: 4465030,
+    //   gasPrice: 10000000000,
+    // }
   },
 
   // Set default mocha options here, use special reporters etc.
