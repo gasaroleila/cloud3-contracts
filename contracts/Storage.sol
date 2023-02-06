@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract Persssist {
-    string public name = "Persssist";
+contract Storage {
+    string public name = "Storage";
     uint256 public fileCount = 0;
     mapping(uint256 => File) public files;
 
